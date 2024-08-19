@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  data:
+    image: postgres:16
+    container_name: data
+    command: -p 1221
+    expose:
+      - 1221
+    env_file:
+      - /.env
+
+  app:
+    build:
+      context: .
+    env_file:
+      - /.env
+    container_name: file_downloader
+    command: ["/file_downloader/docker/app.sh"]
+    ports:
+      - 9999:8000
+    depends_on:
+      - data
